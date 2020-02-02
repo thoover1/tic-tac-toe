@@ -1,17 +1,23 @@
-import React from "react";
+import React, { Component } from "react";
+import "./MappedBoard.css";
 
-function MappedBoard() {
+export default class MappedBoard extends Component {
   render() {
-    console.log(this.props.square);
-    console.log(this.props.square[i]);
     return (
       <div className="square-container">
-        <div className="individual-square" id={this.props.square}>
-          <div>{this.props.square[i]}</div>
+        <div
+          className="individual-square"
+          id={this.props.playersTurnProps}
+          onClick={() =>
+            this.props.handleClickProp(
+              this.props.i,
+              this.props.playersTurnProps
+            )
+          }
+        >
+          <h1>{this.props.value}</h1>
         </div>
       </div>
     );
   }
 }
-
-export default MappedBoard;
