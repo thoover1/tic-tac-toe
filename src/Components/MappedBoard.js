@@ -3,7 +3,6 @@ import "./MappedBoard.css";
 
 export default class MappedBoard extends Component {
   render() {
-    // console.log(this.props);
     return (
       <div className="square-container">
         <div

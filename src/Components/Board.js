@@ -85,7 +85,7 @@ export default class Board extends Component {
       } else if (updatedMoves === 0) {
         this.setState({
           winnerDeclared: true,
-          winningPlayer: "Bwahahaha! Nobody"
+          winningPlayer: "Cat's Game! Nobody"
         });
         return;
       } else {
