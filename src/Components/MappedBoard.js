@@ -3,6 +3,7 @@ import "./MappedBoard.css";
 
 export default class MappedBoard extends Component {
   render() {
+    // console.log(this.props);
     return (
       <div className="square-container">
         <div
@@ -10,6 +11,7 @@ export default class MappedBoard extends Component {
           id={this.props.playersTurnProps}
           onClick={() =>
             this.props.handleClickProp(
+              this.props.value,
               this.props.i,
               this.props.playersTurnProps
             )
