@@ -12,3 +12,5 @@
 - Game would be played locally (i.e. no online face-off's)
 
 - Web-based application that needs to scale down for mobile devices (including landscape view)
+
+- Basic, 'bare-bones' application
