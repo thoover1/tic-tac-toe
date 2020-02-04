@@ -16,82 +16,111 @@ export default class Board extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  checkIfWinnerDeclared(newBoard, updatedMoves) {
-    for (let i = 0; i < newBoard.length; i++) {
-      if (newBoard[0] === newBoard[1] && newBoard[1] === newBoard[2]) {
-        if (newBoard[0] !== null) {
-          this.setState({
-            winnerDeclared: true,
-            winningPlayer: newBoard[0]
-          });
-        }
-        return;
-      } else if (newBoard[0] === newBoard[3] && newBoard[3] === newBoard[6]) {
-        if (newBoard[0] !== null) {
-          this.setState({
-            winnerDeclared: true,
-            winningPlayer: newBoard[0]
-          });
-        }
-        return;
-      } else if (newBoard[0] === newBoard[4] && newBoard[4] === newBoard[8]) {
-        if (newBoard[0] !== null) {
-          this.setState({
-            winnerDeclared: true,
-            winningPlayer: newBoard[0]
-          });
-        }
-        return;
-      } else if (newBoard[1] === newBoard[4] && newBoard[4] === newBoard[7]) {
-        if (newBoard[1] !== null) {
-          this.setState({
-            winnerDeclared: true,
-            winningPlayer: newBoard[1]
-          });
-        }
-        return;
-      } else if (newBoard[2] === newBoard[4] && newBoard[4] === newBoard[6]) {
-        if (newBoard[2] !== null) {
-          this.setState({
-            winnerDeclared: true,
-            winningPlayer: newBoard[2]
-          });
-        }
-        return;
-      } else if (newBoard[2] === newBoard[5] && newBoard[5] === newBoard[8]) {
-        if (newBoard[2] !== null) {
-          this.setState({
-            winnerDeclared: true,
-            winningPlayer: newBoard[2]
-          });
-        }
-        return;
-      } else if (newBoard[3] === newBoard[4] && newBoard[4] === newBoard[5]) {
-        if (newBoard[3] !== null) {
-          this.setState({
-            winnerDeclared: true,
-            winningPlayer: newBoard[3]
-          });
-        }
-        return;
-      } else if (newBoard[6] === newBoard[7] && newBoard[7] === newBoard[8]) {
-        if (newBoard[6] !== null) {
-          this.setState({
-            winnerDeclared: true,
-            winningPlayer: newBoard[6]
-          });
-        }
-        return;
-      } else if (updatedMoves === 0) {
+  // checkIfWinnerDeclared(newBoard, updatedMoves) {
+  //   for (let i = 0; i < newBoard.length; i++) {
+  //     if (newBoard[0] === newBoard[1] && newBoard[1] === newBoard[2]) {
+  //       if (newBoard[0] !== null) {
+  //         this.setState({
+  //           winnerDeclared: true,
+  //           winningPlayer: newBoard[0]
+  //         });
+  //       }
+  //       return;
+  //     } else if (newBoard[0] === newBoard[3] && newBoard[3] === newBoard[6]) {
+  //       if (newBoard[0] !== null) {
+  //         this.setState({
+  //           winnerDeclared: true,
+  //           winningPlayer: newBoard[0]
+  //         });
+  //       }
+  //       return;
+  //     } else if (newBoard[0] === newBoard[4] && newBoard[4] === newBoard[8]) {
+  //       if (newBoard[0] !== null) {
+  //         this.setState({
+  //           winnerDeclared: true,
+  //           winningPlayer: newBoard[0]
+  //         });
+  //       }
+  //       return;
+  //     } else if (newBoard[1] === newBoard[4] && newBoard[4] === newBoard[7]) {
+  //       if (newBoard[1] !== null) {
+  //         this.setState({
+  //           winnerDeclared: true,
+  //           winningPlayer: newBoard[1]
+  //         });
+  //       }
+  //       return;
+  //     } else if (newBoard[2] === newBoard[4] && newBoard[4] === newBoard[6]) {
+  //       if (newBoard[2] !== null) {
+  //         this.setState({
+  //           winnerDeclared: true,
+  //           winningPlayer: newBoard[2]
+  //         });
+  //       }
+  //       return;
+  //     } else if (newBoard[2] === newBoard[5] && newBoard[5] === newBoard[8]) {
+  //       if (newBoard[5] !== null) {
+  //         this.setState({
+  //           winnerDeclared: true,
+  //           winningPlayer: newBoard[2]
+  //         });
+  //         console.log(1243);
+  //       }
+  //       return;
+  //     } else if (newBoard[3] === newBoard[4] && newBoard[4] === newBoard[5]) {
+  //       if (newBoard[3] !== null) {
+  //         this.setState({
+  //           winnerDeclared: true,
+  //           winningPlayer: newBoard[3]
+  //         });
+  //       }
+  //       return;
+  //     } else if (newBoard[6] === newBoard[7] && newBoard[7] === newBoard[8]) {
+  //       if (newBoard[6] !== null) {
+  //         this.setState({
+  //           winnerDeclared: true,
+  //           winningPlayer: newBoard[6]
+  //         });
+  //       }
+  //       return;
+  //     } else if (updatedMoves === 0) {
+  //       this.setState({
+  //         winnerDeclared: true,
+  //         winningPlayer: "Cat's Game! Nobody"
+  //       });
+  //       return;
+  //     } else {
+  //       return;
+  //     }
+  //   }
+  // }
+
+  calculateWinner(newBoard) {
+    const winningCombos = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ];
+    for (let i = 0; i < winningCombos.length; i++) {
+      const [a, b, c] = winningCombos[i];
+      if (
+        newBoard[a] &&
+        newBoard[a] === newBoard[b] &&
+        newBoard[a] === newBoard[c]
+      ) {
         this.setState({
           winnerDeclared: true,
-          winningPlayer: "Cat's Game! Nobody"
+          winningPlayer: newBoard[a]
         });
-        return;
-      } else {
-        return;
+        return newBoard[a];
       }
     }
+    return null;
   }
 
   resetBoard() {
@@ -115,7 +144,8 @@ export default class Board extends Component {
         movesRemaining: updatedMoves,
         winningPlayer: !this.state.playerX
       });
-      this.checkIfWinnerDeclared(newBoard, updatedMoves);
+      console.log(newBoard);
+      this.calculateWinner(newBoard);
     } else {
       return;
     }
