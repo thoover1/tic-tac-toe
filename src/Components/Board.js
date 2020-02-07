@@ -16,6 +16,16 @@ export default class Board extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
+  catsGameIndicator(updatedMoves) {
+    if (updatedMoves === 0) {
+      this.setState({
+        winnerDeclared: true,
+        winningPlayer: "Cat's Game! Nobody"
+      });
+      return;
+    }
+  }
+
   checkForWinner(newBoard, updatedMoves) {
     const winningCombos = [
       [0, 1, 2],
@@ -39,12 +49,8 @@ export default class Board extends Component {
           winningPlayer: newBoard[a]
         });
         return newBoard[a];
-      } else if (updatedMoves === 0) {
-        this.setState({
-          winnerDeclared: true,
-          winningPlayer: "Cat's Game! Nobody"
-        });
-        return;
+      } else {
+        this.catsGameIndicator(updatedMoves);
       }
     }
     return null;
