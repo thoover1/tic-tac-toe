@@ -16,8 +16,8 @@ export default class Board extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  catsGameIndicator(updatedMoves) {
-    if (updatedMoves === 0) {
+  catsGameIndicator(finalMove) {
+    if (finalMove === 0) {
       this.setState({
         winnerDeclared: true,
         winningPlayer: "Cat's Game! Nobody"
