@@ -11,24 +11,10 @@ const Board = () => {
   const [winnerDeclared, setwinnerDeclared] = useState(false);
   const [winningPlayer, setwinningPlayer] = useState("");
 
-  //   this.state = {
-  //     board: blankBoard,
-  //     playerX: true,
-  //     movesRemaining: 9,
-  //     winnerDeclared: false,
-  //     winningPlayer: ""
-  //   };
-  //   this.handleClick = this.handleClick.bind(this);
-  // }
-
   const catsGameIndicator = finalMove => {
     if (finalMove === 0) {
       setwinnerDeclared(true);
       setwinningPlayer("Cat's Game! Nobody");
-      // this.setState({
-      //   winnerDeclared: true,
-      //   winningPlayer: "Cat's Game! Nobody"
-      // });
       return;
     }
   };
@@ -53,10 +39,6 @@ const Board = () => {
       ) {
         setwinnerDeclared(true);
         setwinningPlayer(newBoard[a]);
-        // this.setState({
-        //   winnerDeclared: true,
-        //   winningPlayer: newBoard[a]
-        // });
         return newBoard[a];
       } else {
         catsGameIndicator(updatedMoves);
@@ -66,13 +48,6 @@ const Board = () => {
   };
 
   const resetBoard = () => {
-    // this.setState({
-    //   board: blankBoard,
-    //   playerX: true,
-    //   movesRemaining: 9,
-    //   winnerDeclared: false,
-    //   winningPlayer: ""
-    // });
     setBoard(blankBoard);
     setplayerX(true);
     setmovesRemaining(9);
@@ -86,12 +61,6 @@ const Board = () => {
         let newBoard = [...board];
         let updatedMoves = movesRemaining - 1;
         newBoard.splice(index, 1, playersTurn);
-        // this.setState({
-        //   board: newBoard,
-        //   playerX: !this.state.playerX,
-        //   movesRemaining: updatedMoves,
-        //   winningPlayer: !this.state.playerX
-        // });
         setBoard(newBoard);
         setplayerX(!playerX);
         setmovesRemaining(updatedMoves);
