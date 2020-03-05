@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import MappedBoard from "./MappedBoard";
 import "./Board.css";
 
+const blankBoard = [null, null, null, null, null, null, null, null, null];
+
 export default class Board extends Component {
   constructor() {
     super();
 
     this.state = {
-      board: [null, null, null, null, null, null, null, null, null],
+      board: blankBoard,
       playerX: true,
       movesRemaining: 9,
       winnerDeclared: false,
@@ -58,7 +60,7 @@ export default class Board extends Component {
 
   resetBoard() {
     this.setState({
-      board: Array(9).fill(null),
+      board: blankBoard,
       playerX: true,
       movesRemaining: 9,
       winnerDeclared: false,
