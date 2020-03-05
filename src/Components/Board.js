@@ -7,7 +7,7 @@ export default class Board extends Component {
     super();
 
     this.state = {
-      board: Array(9).fill(null),
+      board: [null, null, null, null, null, null, null, null, null],
       playerX: true,
       movesRemaining: 9,
       winnerDeclared: false,
@@ -86,31 +86,33 @@ export default class Board extends Component {
   render() {
     const mappedBoard = this.state.board;
     const playersTurn = this.state.playerX ? "X" : "O";
+
+    let title = null;
+
+    if (this.state.winnerDeclared) {
+      title = <h1>{this.state.winningPlayer + " Wins!!!"}</h1>;
+    } else {
+      title = <h3 className="player-turn">{playersTurn}'s Turn</h3>;
+    }
+
     return (
       <div className="board-container">
-        {this.state.winnerDeclared ? (
-          <>
-            <h1>{this.state.winningPlayer + " Wins!!!"}</h1>
-            <button onClick={() => this.resetBoard()}>Reset Board</button>
-          </>
-        ) : (
-          <>
-            <h3 className="player-turn">{playersTurn}'s Turn</h3>
-            <div className="test">
-              {mappedBoard.map((square, i) => {
-                return (
-                  <MappedBoard
-                    value={square}
-                    i={i}
-                    handleClickProp={this.handleClick}
-                    playersTurnProps={playersTurn}
-                  />
-                );
-              })}
-            </div>
-            <button onClick={() => this.resetBoard()}>Reset Board</button>
-          </>
-        )}
+        {title}
+        <>
+          <div className="test">
+            {mappedBoard.map((square, i) => {
+              return (
+                <MappedBoard
+                  value={square}
+                  i={i}
+                  handleClickProp={this.handleClick}
+                  playersTurnProps={playersTurn}
+                />
+              );
+            })}
+          </div>
+          <button onClick={() => this.resetBoard()}>Reset Board</button>
+        </>
       </div>
     );
   }
