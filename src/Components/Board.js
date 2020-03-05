@@ -67,17 +67,21 @@ export default class Board extends Component {
   }
 
   handleClick(value, index, playersTurn) {
-    if (value === null) {
-      let newBoard = [...this.state.board];
-      let updatedMoves = this.state.movesRemaining - 1;
-      newBoard.splice(index, 1, playersTurn);
-      this.setState({
-        board: newBoard,
-        playerX: !this.state.playerX,
-        movesRemaining: updatedMoves,
-        winningPlayer: !this.state.playerX
-      });
-      this.checkForWinner(newBoard, updatedMoves);
+    if (this.state.winnerDeclared === false) {
+      if (value === null) {
+        let newBoard = [...this.state.board];
+        let updatedMoves = this.state.movesRemaining - 1;
+        newBoard.splice(index, 1, playersTurn);
+        this.setState({
+          board: newBoard,
+          playerX: !this.state.playerX,
+          movesRemaining: updatedMoves,
+          winningPlayer: !this.state.playerX
+        });
+        this.checkForWinner(newBoard, updatedMoves);
+      } else {
+        return;
+      }
     } else {
       return;
     }
@@ -98,21 +102,19 @@ export default class Board extends Component {
     return (
       <div className="board-container">
         {title}
-        <>
-          <div className="test">
-            {mappedBoard.map((square, i) => {
-              return (
-                <MappedBoard
-                  value={square}
-                  i={i}
-                  handleClickProp={this.handleClick}
-                  playersTurnProps={playersTurn}
-                />
-              );
-            })}
-          </div>
-          <button onClick={() => this.resetBoard()}>Reset Board</button>
-        </>
+        <div className="test">
+          {mappedBoard.map((square, i) => {
+            return (
+              <MappedBoard
+                value={square}
+                i={i}
+                handleClickProp={this.handleClick}
+                playersTurnProps={playersTurn}
+              />
+            );
+          })}
+        </div>
+        <button onClick={() => this.resetBoard()}>Reset Board</button>
       </div>
     );
   }
