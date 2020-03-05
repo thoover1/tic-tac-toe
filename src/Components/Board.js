@@ -1,34 +1,39 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import MappedBoard from "./MappedBoard";
 import "./Board.css";
 
 const blankBoard = [null, null, null, null, null, null, null, null, null];
 
-export default class Board extends Component {
-  constructor() {
-    super();
+const Board = () => {
+  const [board, setBoard] = useState(blankBoard);
+  const [playerX, setplayerX] = useState(true);
+  const [movesRemaining, setmovesRemaining] = useState(9);
+  const [winnerDeclared, setwinnerDeclared] = useState(false);
+  const [winningPlayer, setwinningPlayer] = useState("");
 
-    this.state = {
-      board: blankBoard,
-      playerX: true,
-      movesRemaining: 9,
-      winnerDeclared: false,
-      winningPlayer: ""
-    };
-    this.handleClick = this.handleClick.bind(this);
-  }
+  //   this.state = {
+  //     board: blankBoard,
+  //     playerX: true,
+  //     movesRemaining: 9,
+  //     winnerDeclared: false,
+  //     winningPlayer: ""
+  //   };
+  //   this.handleClick = this.handleClick.bind(this);
+  // }
 
-  catsGameIndicator(finalMove) {
+  const catsGameIndicator = finalMove => {
     if (finalMove === 0) {
-      this.setState({
-        winnerDeclared: true,
-        winningPlayer: "Cat's Game! Nobody"
-      });
+      setwinnerDeclared(true);
+      setwinningPlayer("Cat's Game! Nobody");
+      // this.setState({
+      //   winnerDeclared: true,
+      //   winningPlayer: "Cat's Game! Nobody"
+      // });
       return;
     }
-  }
+  };
 
-  checkForWinner(newBoard, updatedMoves) {
+  const checkForWinner = (newBoard, updatedMoves) => {
     const winningCombos = [
       [0, 1, 2],
       [3, 4, 5],
@@ -46,78 +51,89 @@ export default class Board extends Component {
         newBoard[a] === newBoard[b] &&
         newBoard[a] === newBoard[c]
       ) {
-        this.setState({
-          winnerDeclared: true,
-          winningPlayer: newBoard[a]
-        });
+        setwinnerDeclared(true);
+        setwinningPlayer(newBoard[a]);
+        // this.setState({
+        //   winnerDeclared: true,
+        //   winningPlayer: newBoard[a]
+        // });
         return newBoard[a];
       } else {
-        this.catsGameIndicator(updatedMoves);
+        catsGameIndicator(updatedMoves);
       }
     }
     return null;
-  }
+  };
 
-  resetBoard() {
-    this.setState({
-      board: blankBoard,
-      playerX: true,
-      movesRemaining: 9,
-      winnerDeclared: false,
-      winningPlayer: ""
-    });
-  }
+  const resetBoard = () => {
+    // this.setState({
+    //   board: blankBoard,
+    //   playerX: true,
+    //   movesRemaining: 9,
+    //   winnerDeclared: false,
+    //   winningPlayer: ""
+    // });
+    setBoard(blankBoard);
+    setplayerX(true);
+    setmovesRemaining(9);
+    setwinnerDeclared(false);
+    setwinningPlayer("");
+  };
 
-  handleClick(value, index, playersTurn) {
-    if (this.state.winnerDeclared === false) {
+  const handleClick = (value, index, playersTurn) => {
+    if (winnerDeclared === false) {
       if (value === null) {
-        let newBoard = [...this.state.board];
-        let updatedMoves = this.state.movesRemaining - 1;
+        let newBoard = [...board];
+        let updatedMoves = movesRemaining - 1;
         newBoard.splice(index, 1, playersTurn);
-        this.setState({
-          board: newBoard,
-          playerX: !this.state.playerX,
-          movesRemaining: updatedMoves,
-          winningPlayer: !this.state.playerX
-        });
-        this.checkForWinner(newBoard, updatedMoves);
+        // this.setState({
+        //   board: newBoard,
+        //   playerX: !this.state.playerX,
+        //   movesRemaining: updatedMoves,
+        //   winningPlayer: !this.state.playerX
+        // });
+        setBoard(newBoard);
+        setplayerX(!playerX);
+        setmovesRemaining(updatedMoves);
+        setwinningPlayer(!playerX);
+        checkForWinner(newBoard, updatedMoves);
       } else {
         return;
       }
     } else {
       return;
     }
+  };
+
+  const mappedBoard = board;
+  const playersTurn = playerX ? "X" : "O";
+
+  let title = null;
+
+  if (winnerDeclared) {
+    title = <h1>{winningPlayer + " Wins!!!"}</h1>;
+  } else {
+    title = <h3 className="player-turn">{playersTurn}'s Turn</h3>;
   }
 
-  render() {
-    const mappedBoard = this.state.board;
-    const playersTurn = this.state.playerX ? "X" : "O";
-
-    let title = null;
-
-    if (this.state.winnerDeclared) {
-      title = <h1>{this.state.winningPlayer + " Wins!!!"}</h1>;
-    } else {
-      title = <h3 className="player-turn">{playersTurn}'s Turn</h3>;
-    }
-
-    return (
-      <div className="board-container">
-        {title}
-        <div className="test">
-          {mappedBoard.map((square, i) => {
-            return (
-              <MappedBoard
-                value={square}
-                i={i}
-                handleClickProp={this.handleClick}
-                playersTurnProps={playersTurn}
-              />
-            );
-          })}
-        </div>
-        <button onClick={() => this.resetBoard()}>Reset Board</button>
+  return (
+    <div className="board-container">
+      {title}
+      <div className="test">
+        {mappedBoard.map((square, i) => {
+          return (
+            <MappedBoard
+              value={square}
+              i={i}
+              handleClickProp={handleClick}
+              playersTurnProps={playersTurn}
+            />
+          );
+        })}
       </div>
-    );
-  }
-}
+      <button onClick={() => resetBoard()}>Reset Board</button>
+    </div>
+  );
+};
+
+export default Board;
